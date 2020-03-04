@@ -80,18 +80,16 @@ my.params <- c('psi', 'p', 'Z')
 ## occupancy model
 my.model <- function() {
   
-  ## occupancy
-  psi ~ dunif(0,1)
-  
   for(era in 1:nera) {
-    
+    ## occupancy
+    psi[era] ~ dunif(0,1)
     ## detectability
-    p[era]   ~ dunif(0,1)
+    p[era] ~ dunif(0,1)
     
     ## Likelihood
     for(site in 1:nsite) {
       ## Occurrence
-      Z[site,era] ~ dbern(psi)
+      Z[site,era] ~ dbern(psi[era])
       p.eff[site,era] <- Z[site,era] * p[era]
       for(visit in 1:nvisit) {
         ## Detection 
